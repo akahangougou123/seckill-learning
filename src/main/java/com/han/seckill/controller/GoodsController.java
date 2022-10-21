@@ -22,17 +22,17 @@ public class GoodsController {
     private IUserService userService;
 
     @RequestMapping("/toList")
-    public String toList(HttpServletRequest request, HttpServletResponse response, Model model, @CookieValue("userTicket")String ticket){
-        System.out.println(ticket);
-        if(StringUtils.isEmpty(ticket)){
-            return "login";
-        }
+    public String toList(Model model, User user){
+//        System.out.println(ticket);
+//        if(StringUtils.isEmpty(ticket)){
+//            return "login";
+//        }
 //        User user = (User) session.getAttribute(ticket);
-        User user =  userService.getUserByCookie(ticket, request, response);
-        System.out.println("user:"+user);
-        if(null == user){
-            return "login";
-        }
+//        User user =  userService.getUserByCookie(ticket, request, response);
+//        System.out.println("user:"+user);
+//        if(null == user){
+//            return "login";
+//        }
         model.addAttribute("user",user);
         return "goodsList";
     }
