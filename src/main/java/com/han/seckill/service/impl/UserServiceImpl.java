@@ -82,7 +82,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         }
         User user = (User)redisTemplate.opsForValue().get("user:" + userTicket );
         if(user != null){
-            CookieUtil.setCookie(request, response, "user:", userTicket);
+            CookieUtil.setCookie(request, response, "user", userTicket);
         }
         return user;
     }
