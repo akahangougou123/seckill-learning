@@ -1,6 +1,7 @@
 package com.han.seckill.controller;
 
 import com.han.seckill.pojo.User;
+import com.han.seckill.service.IGoodsService;
 import com.han.seckill.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,6 +21,8 @@ public class GoodsController {
 
     @Autowired
     private IUserService userService;
+    @Autowired
+    private IGoodsService goodsService;
 
     @RequestMapping("/toList")
     public String toList(Model model, User user){
@@ -34,6 +37,7 @@ public class GoodsController {
 //            return "login";
 //        }
         model.addAttribute("user",user);
+        model.addAttribute("goodsList",goodsService.findGoodVo());
         return "goodsList";
     }
 }
