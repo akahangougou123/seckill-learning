@@ -39,7 +39,7 @@ public class KillGoods implements Serializable {
     /**
      * 秒杀价
      */
-    private BigDecimal goodsPrice;
+    private BigDecimal seckillPrice;
 
     /**
      * 库存数量
