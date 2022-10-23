@@ -28,4 +28,9 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
 
         return goodsMapper.findGoodsVo();
     }
+
+    @Override
+    public GoodsVo findGoodVoByGoodsId(Long goodsId) {
+        return goodsMapper.findGoodsVoById(goodsId);
+    }
 }
