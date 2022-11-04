@@ -3,15 +3,14 @@ package com.han.seckill.controller;
 import com.han.seckill.pojo.User;
 import com.han.seckill.service.IGoodsService;
 import com.han.seckill.service.IUserService;
+import com.han.seckill.vo.DetailVo;
 import com.han.seckill.vo.GoodsVo;
+import com.han.seckill.vo.RespBean;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.CookieValue;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.bind.annotation.*;
 import org.thymeleaf.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
@@ -53,9 +52,10 @@ public class GoodsController {
      * @param goodsId
      * @return
      */
-    @RequestMapping("/toDetail/{goodsId}")
-    public String toDetail(Model model, User user, @PathVariable Long goodsId){
-        model.addAttribute("user",user);
+    @RequestMapping("/detail/{goodsId}")
+    @ResponseBody
+    public RespBean toDetail(Model model, User user, @PathVariable Long goodsId){
+//        model.addAttribute("user",user);
         GoodsVo goodsVo = goodsService.findGoodsVoByGoodsId(goodsId);
         Date startDate = goodsVo.getStartDate();
         Date endDate = goodsVo.getEndDate();
@@ -76,9 +76,14 @@ public class GoodsController {
             remainSeconds = 1;
         }
         log.info("{}",seckillStatus);
-        model.addAttribute("seckillStatus",seckillStatus);
-        model.addAttribute("remainSeconds",remainSeconds);
-        model.addAttribute("goods",goodsVo );
-        return "goodsDetail";
+//        model.addAttribute("seckillStatus",seckillStatus);
+//        model.addAttribute("remainSeconds",remainSeconds);
+//        model.addAttribute("goods",goodsVo );
+        DetailVo detailVo = new DetailVo();
+        detailVo.setUser(user);
+        detailVo.setGoodsVo(goodsVo);
+        detailVo.setSeckillStatus(seckillStatus);
+        detailVo.setRemainSeconds(remainSeconds);
+        return RespBean.success(detailVo);
     }
 }

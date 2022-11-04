@@ -72,7 +72,7 @@
             },
             success:function(data){
                 if(data.code == 0){
-                    var result = data.data;
+                    var result = data.obj;
                     if(result < 0){
                         layer.msg("对不起，秒杀失败");
                     }else if(result == 0){//继续轮询
@@ -121,7 +121,7 @@
     function render(detail) {
         var seckillStatus = detail.seckillStatus;
         var remainSeconds = detail.remainSeconds;
-        var goods = detail.goods;
+        var goods = detail.goodsVo;
         var user = detail.user;
         if (user) {
             $("#userTip").hide();
@@ -137,8 +137,9 @@
     }
 
     $(function () {
-        countDown();
+
         getDetail();
+        countDown();
     });
 
     function getDetail() {
@@ -147,9 +148,9 @@
             url: "/goods/detail/" + goodsId,
             type: "GET",
             success: function (data) {
-                if (data.code == 0) {
+                if (data.code == 200) {
                     //将数据渲染出来
-                    render(data.data);
+                    render(data.obj);
                 } else {
                     layer.msg(data.msg);
                 }
@@ -167,7 +168,7 @@
             $("#buyButton").attr("disabled", true);
             $("#seckillTip").html("秒杀倒计时：" + remainSeconds + "秒");
             timeout = setTimeout(function () {
-                $("#countDown").text(remainSeconds - 1);
+                // $("#countDown").text(remainSeconds - 1);
                 $("#remainSeconds").val(remainSeconds - 1);
                 countDown();
             }, 1000);
