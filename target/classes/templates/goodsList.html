@@ -23,10 +23,10 @@
             width: 100%;
         }
 
-        body {
-            background: url('/img/bg2.jpg') no-repeat;
-            background-size: 100% 100%;
-        }
+        /*body {*/
+        /*    background: url('/img/bg2.jpg') no-repeat;*/
+        /*    background-size: 100% 100%;*/
+        /*}*/
 
         #goodslist td {
             border-top: 1px solid #39503f61;
@@ -52,7 +52,7 @@
             <td th:text="${goods.goodsPrice}"></td>
             <td th:text="${goods.seckillPrice}"></td>
             <td th:text="${goods.stockCount}"></td>
-            <td><a th:href="'/goods_detail.htm?goodsId='+${goods.id}">详情</a></td>
+            <td><a th:href="'/goods/toDetail/'+${goods.id}">详情</a></td>
         </tr>
     </table>
 </div>

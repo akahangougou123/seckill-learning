@@ -21,7 +21,7 @@ import java.util.Date;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @TableName("sk_order")
-public class Order implements Serializable {
+public class  Order implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -74,7 +74,7 @@ public class Order implements Serializable {
     /**
      * 订单创建时间
      */
-    private Date createData;
+    private Date createDate;
 
     /**
      * 支付时间

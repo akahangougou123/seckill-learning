@@ -38,7 +38,7 @@
     </select>
 
     <!--  获取商品详情  -->
-    <select id="findGoodsVoById"  resultType="com.han.seckill.vo.GoodsVo">
+    <select id="findGoodsVoByGoodsId"  resultType="com.han.seckill.vo.GoodsVo">
         SELECT
             g.id,
             g.goods_name,
@@ -47,6 +47,7 @@
             g.goods_detail,
             g.goods_price,
             g.goods_stock,
+            sg.goods_id,
             sg.seckill_price,
             sg.stock_count,
             sg.start_date,

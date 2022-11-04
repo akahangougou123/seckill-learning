@@ -26,6 +26,7 @@ public class WbeConfig implements WebMvcConfigurer {
     }
 
 
+    //指定静态资源路径
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/**").addResourceLocations("classpath:/static/");

@@ -13,13 +13,13 @@
         <result column="goods_price" property="goodsPrice" />
         <result column="order_channel" property="orderChannel" />
         <result column="status" property="status" />
-        <result column="create_data" property="createData" />
+        <result column="create_date" property="createDate" />
         <result column="pay_date" property="payDate" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, user_id, goods_id, delivery_addr_id, goods_name, goods_count, goods_price, order_channel, status, create_data, pay_date
+        id, user_id, goods_id, delivery_addr_id, goods_name, goods_count, goods_price, order_channel, status, create_date, pay_date
     </sql>
 
 </mapper>
