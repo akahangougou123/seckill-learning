@@ -8,9 +8,9 @@ import com.han.seckill.pojo.User;
  *  Mapper 接口
  * </p>
  *
- * @author jobob
- * @since 2022-10-15
+ * @author jiajian_han
+ * @since 2023-02-10
  */
-public interface  UserMapper extends BaseMapper<User> {
+public interface UserMapper extends BaseMapper<User> {
 
 }

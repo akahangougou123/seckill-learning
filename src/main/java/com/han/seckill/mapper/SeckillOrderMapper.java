@@ -1,7 +1,7 @@
 package com.han.seckill.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.han.seckill.pojo.Order;
+import com.han.seckill.pojo.SeckillOrder;
 
 /**
  * <p>
@@ -11,6 +11,6 @@ import com.han.seckill.pojo.Order;
  * @author jiajian_han
  * @since 2023-02-10
  */
-public interface OrderMapper extends BaseMapper<Order> {
+public interface SeckillOrderMapper extends BaseMapper<SeckillOrder> {
 
 }

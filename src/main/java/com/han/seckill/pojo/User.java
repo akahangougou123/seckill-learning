@@ -12,12 +12,12 @@ import java.util.Date;
  * 
  * </p>
  *
- * @author jobob
- * @since 2022-10-15
+ * @author jiajian_han
+ * @since 2023-02-10
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@TableName("sk_user")
+@TableName("t_user")
 public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;

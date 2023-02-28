@@ -9,11 +9,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
  *  前端控制器
  * </p>
  *
- * @author jobob
- * @since 2022-10-22
+ * @author jiajian_han
+ * @since 2023-02-10
  */
 @Controller
 @RequestMapping("/seckillOrder")
-public class KillOrderController {
+public class SeckillOrderController {
 
 }

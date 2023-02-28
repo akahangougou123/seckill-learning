@@ -7,42 +7,54 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.Date;
 
 /**
  * <p>
  * 
  * </p>
  *
- * @author jobob
- * @since 2022-10-22
+ * @author jiajian_han
+ * @since 2023-02-10
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@TableName("sk_kill_order")
-public class KillOrder implements Serializable {
+@TableName("t_seckill_goods")
+public class SeckillGoods implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     /**
-     * 秒杀订单ID
+     * 秒杀商品ID
      */
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
     /**
-     * 用户ID
-     */
-    private Long userId;
-
-    /**
-     * 订单ID
-     */
-    private Long orderId;
-
-    /**
      * 商品ID
      */
     private Long goodsId;
+
+    /**
+     * 秒杀价
+     */
+    private BigDecimal seckillPrice;
+
+    /**
+     * 库存数量
+     */
+    private Integer stockCount;
+
+    /**
+     * 秒杀开始时间
+     */
+    private Date startDate;
+
+    /**
+     * 秒杀结束时间
+     */
+    private Date endDate;
 
 
 }

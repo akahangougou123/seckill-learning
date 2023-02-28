@@ -72,7 +72,7 @@
             },
             success:function(data){
                 if(data.code == 0){
-                    var result = data.data;
+                    var result = data.obj;
                     if(result < 0){
                         layer.msg("对不起，秒杀失败");
                     }else if(result == 0){//继续轮询
@@ -89,7 +89,7 @@
                             });
                     }
                 }else{
-                    layer.msg(data.msg);
+                    layer.msg(data.message);
                 }
             },
             error:function(){
@@ -99,17 +99,17 @@
     }
     function doSeckill() {
         $.ajax({
-            url: "/seckill/do_seckill",
+            url: "/seckill/doSecKill",
             type: "POST",
             data: {
                 goodsId: $("#goodsId").val(),
             },
             success: function (data) {
-                if (data.code == 0) {
-//                    window.location.href = "/order_detail.htm?orderId=" + data.data.id;
-                    getSeckillResult($("#goodsId").val());
+                if (data.code == 200) {
+                   window.location.href = "/order_detail.htm?orderId=" + data.obj.id;
+                    //getSeckillResult($("#goodsId").val());
                 } else {
-                    layer.msg(data.msg);
+                    layer.msg(data.message);
                 }
             },
             error: function () {
@@ -121,10 +121,10 @@
     function render(detail) {
         var seckillStatus = detail.seckillStatus;
         var remainSeconds = detail.remainSeconds;
-        var goods = detail.goods;
+        var goods = detail.goodsVo;
         var user = detail.user;
         if (user) {
-            $("#userTip").hide();
+            $("#userTip").text("欢迎:"+user.nickname);
         }
         $("#goodsName").text(goods.goodsName);
         $("#goodsImg").attr("src", goods.goodsImg);
@@ -137,8 +137,9 @@
     }
 
     $(function () {
-        countDown();
+
         getDetail();
+        countDown();
     });
 
     function getDetail() {
@@ -147,9 +148,9 @@
             url: "/goods/detail/" + goodsId,
             type: "GET",
             success: function (data) {
-                if (data.code == 0) {
+                if (data.code == 200) {
                     //将数据渲染出来
-                    render(data.data);
+                    render(data.obj);
                 } else {
                     layer.msg(data.msg);
                 }
@@ -161,13 +162,14 @@
     }
 
     function countDown() {
+        console.log("countDown");
         var remainSeconds = $("#remainSeconds").val();
         var timeout;
         if (remainSeconds > 0) {//秒杀还没开始，倒计时
             $("#buyButton").attr("disabled", true);
             $("#seckillTip").html("秒杀倒计时：" + remainSeconds + "秒");
             timeout = setTimeout(function () {
-                $("#countDown").text(remainSeconds - 1);
+                // $("#countDown").text(remainSeconds - 1);
                 $("#remainSeconds").val(remainSeconds - 1);
                 countDown();
             }, 1000);

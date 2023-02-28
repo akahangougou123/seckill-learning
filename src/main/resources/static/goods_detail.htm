@@ -89,7 +89,7 @@
                             });
                     }
                 }else{
-                    layer.msg(data.msg);
+                    layer.msg(data.message);
                 }
             },
             error:function(){
@@ -99,17 +99,17 @@
     }
     function doSeckill() {
         $.ajax({
-            url: "/seckill/do_seckill",
+            url: "/seckill/doSecKill",
             type: "POST",
             data: {
                 goodsId: $("#goodsId").val(),
             },
             success: function (data) {
-                if (data.code == 0) {
-//                    window.location.href = "/order_detail.htm?orderId=" + data.data.id;
-                    getSeckillResult($("#goodsId").val());
+                if (data.code == 200) {
+                   window.location.href = "/order_detail.htm?orderId=" + data.obj.id;
+                    //getSeckillResult($("#goodsId").val());
                 } else {
-                    layer.msg(data.msg);
+                    layer.msg(data.message);
                 }
             },
             error: function () {
@@ -124,7 +124,7 @@
         var goods = detail.goodsVo;
         var user = detail.user;
         if (user) {
-            $("#userTip").hide();
+            $("#userTip").text("欢迎:"+user.nickname);
         }
         $("#goodsName").text(goods.goodsName);
         $("#goodsImg").attr("src", goods.goodsImg);
@@ -162,6 +162,7 @@
     }
 
     function countDown() {
+        console.log("countDown");
         var remainSeconds = $("#remainSeconds").val();
         var timeout;
         if (remainSeconds > 0) {//秒杀还没开始，倒计时

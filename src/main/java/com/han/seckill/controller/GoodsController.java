@@ -1,5 +1,6 @@
 package com.han.seckill.controller;
 
+
 import com.han.seckill.pojo.User;
 import com.han.seckill.service.IGoodsService;
 import com.han.seckill.service.IUserService;
@@ -10,19 +11,24 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-import org.thymeleaf.util.StringUtils;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.util.Date;
 
+/**
+ * <p>
+ *  前端控制器
+ * </p>
+ *
+ * @author jiajian_han
+ * @since 2023-02-10
+ */
 @Controller
 @RequestMapping("/goods")
 @Slf4j
 public class GoodsController {
-
     @Autowired
     private IUserService userService;
     @Autowired
@@ -86,4 +92,5 @@ public class GoodsController {
         detailVo.setRemainSeconds(remainSeconds);
         return RespBean.success(detailVo);
     }
+
 }

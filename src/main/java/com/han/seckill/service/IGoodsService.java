@@ -11,11 +11,10 @@ import java.util.List;
  *  服务类
  * </p>
  *
- * @author jobob
- * @since 2022-10-22
+ * @author jiajian_han
+ * @since 2023-02-10
  */
 public interface IGoodsService extends IService<Goods> {
-
     /**
      * 获取商品列表
      * @return
@@ -23,4 +22,5 @@ public interface IGoodsService extends IService<Goods> {
     List<GoodsVo> findGoodVo();
 
     GoodsVo findGoodsVoByGoodsId(Long goodsId);
+
 }

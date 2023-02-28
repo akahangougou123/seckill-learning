@@ -14,12 +14,12 @@ import java.math.BigDecimal;
  * 
  * </p>
  *
- * @author jobob
- * @since 2022-10-22
+ * @author jiajian_han
+ * @since 2023-02-10
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@TableName("sk_goods")
+@TableName("t_goods")
 public class Goods implements Serializable {
 
     private static final long serialVersionUID = 1L;

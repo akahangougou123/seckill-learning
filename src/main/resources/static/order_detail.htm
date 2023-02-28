@@ -59,21 +59,6 @@
 </body>
 </html>
 <script>
-    function render(detail){
-        var goods = detail.goods;
-        var order = detail.order;
-        $("#goodsName").text(goods.goodsName);
-        $("#goodsImg").attr("src", goods.goodsImg);
-        $("#orderPrice").text(order.goodsPrice);
-        $("#createDate").text(new Date(order.createDate).format("yyyy-MM-dd hh:mm:ss"));
-        var status = "";
-        if(order.status == 0){
-            status = "未支付"
-        }else if(order.status == 1){
-            status = "待发货";
-        }
-        $("#orderStatus").text(status);
-    }
 
     $(function(){
         getOrderDetail();
@@ -88,8 +73,8 @@
                 orderId:orderId
             },
             success:function(data){
-                if(data.code == 0){
-                    render(data.data);
+                 if(data.code == 200){
+                    render(data.obj);
                 }else{
                     layer.msg(data.msg);
                 }
@@ -98,5 +83,39 @@
                 layer.msg("客户端请求有误");
             }
         });
+    }
+
+    function render(detail){
+        var goods = detail.goodsVo;
+        var order =  detail.order;
+
+        $("#goodsName").text(goods.goodsName);
+        $("#goodsImg").attr("src",goods.goodsImg);
+        $("#goodsPrice").text(order.goodsPrice);
+        $("#createDate").text(new Date(order.createDate).format("yyyy-MM-dd HH:mm:ss"));
+        var orderStatus = order.status;
+        var statusText = "";
+        switch (orderStatus) {
+            case 0:
+                statusText = "未支付";
+                break;
+            case 1:
+                statusText = "待发货";
+                break;
+            case 2:
+                statusText = "已发货";
+                break;
+            case 3:
+                statusText = "已收货";
+                break;
+            case 4:
+                statusText = "已退款";
+                break;
+            case 5:
+                statusText = "已完成";
+                break;
+        }
+        $("#orderStatus").text(statusText);
+
     }
 </script>

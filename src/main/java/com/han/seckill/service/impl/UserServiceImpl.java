@@ -16,7 +16,6 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.util.StringUtils;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -25,12 +24,11 @@ import javax.servlet.http.HttpServletResponse;
  *  服务实现类
  * </p>
  *
- * @author jobob
- * @since 2022-10-15
+ * @author jiajian_han
+ * @since 2023-02-10
  */
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IUserService {
-
     @Autowired
     private UserMapper userMapper;
     @Autowired
@@ -53,6 +51,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
 //            return RespBean.error(RespBeanEnum.MOBILE_ERROR);
             throw new GlobalException(RespBeanEnum.LOGIN_ERROR);
         }
+
         //判断密码是否正确
         if(!MD5Util.formPassToDBPass(password,user.getSalt()).equals(user.getPassword())){
 //            return RespBean.error(RespBeanEnum.LOGIN_ERROR);
@@ -110,6 +109,4 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         }
         return RespBean.error(RespBeanEnum.PASSWORD_UPDATE_FAIL );
     }
-
-
 }

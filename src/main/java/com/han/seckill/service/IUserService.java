@@ -7,18 +7,18 @@ import com.han.seckill.vo.RespBean;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 /**
  * <p>
  *  服务类
  * </p>
  *
- * @author jobob
- * @since 2022-10-15
+ * @author jiajian_han
+ * @since 2023-02-10
  */
 public interface IUserService extends IService<User> {
-
-    RespBean doLogin(LoginVo loginVo, HttpServletRequest request, HttpServletResponse response);
+    RespBean doLogin(@Valid LoginVo loginVo, HttpServletRequest request, HttpServletResponse response);
 
     /**
      * 根据cookie获取用户
@@ -38,5 +38,6 @@ public interface IUserService extends IService<User> {
      * @param password
      * @return
      */
-    RespBean updatePassword(HttpServletRequest request, HttpServletResponse response,String userTicket, String password);
+    RespBean updatePassword(HttpServletRequest request, HttpServletResponse response, String userTicket, String password);
+
 }

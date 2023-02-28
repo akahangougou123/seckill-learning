@@ -11,11 +11,10 @@ import java.util.List;
  *  Mapper 接口
  * </p>
  *
- * @author jobob
- * @since 2022-10-22
+ * @author jiajian_han
+ * @since 2023-02-10
  */
 public interface GoodsMapper extends BaseMapper<Goods> {
-
     /**
      * 获取商品列表
      * @return
