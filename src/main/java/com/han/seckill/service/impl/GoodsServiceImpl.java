@@ -3,6 +3,7 @@ package com.han.seckill.service.impl;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.han.seckill.mapper.GoodsMapper;
 import com.han.seckill.pojo.Goods;
+import com.han.seckill.pojo.Page;
 import com.han.seckill.service.IGoodsService;
 import com.han.seckill.vo.GoodsVo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +31,20 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
     }
 
     @Override
-    public GoodsVo findGoodsVoByGoodsId(Long goodsId) {
+    public GoodsVo findGoodsVoByGoodsId(String goodsId) {
         return goodsMapper.findGoodsVoByGoodsId(goodsId);
+    }
+
+    @Override
+    public List<GoodsVo> queryAllGoods(int page,int pageSize,int type){ return goodsMapper.queryAllGoods(page,pageSize,type); }
+
+    @Override
+    public List<Goods> getDetailImg(String goodsId) {
+        return goodsMapper.getDetailImg(goodsId);
+    }
+
+    @Override
+    public List<GoodsVo> queryGoods(Page page) {
+        return goodsMapper.queryGoods(page);
     }
 }

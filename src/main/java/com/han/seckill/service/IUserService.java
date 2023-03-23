@@ -20,6 +20,8 @@ import javax.validation.Valid;
 public interface IUserService extends IService<User> {
     RespBean doLogin(@Valid LoginVo loginVo, HttpServletRequest request, HttpServletResponse response);
 
+    RespBean doRegister(@Valid LoginVo loginVo);
+
     /**
      * 根据cookie获取用户
      * @param userTicket
@@ -39,5 +41,6 @@ public interface IUserService extends IService<User> {
      * @return
      */
     RespBean updatePassword(HttpServletRequest request, HttpServletResponse response, String userTicket, String password);
+
 
 }

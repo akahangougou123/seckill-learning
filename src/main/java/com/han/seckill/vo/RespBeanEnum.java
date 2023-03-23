@@ -23,6 +23,9 @@ public enum RespBeanEnum {
     MOBIE_NOT_EXIT(500213,"手机号码不存在"),
     PASSWORD_UPDATE_FAIL(500214,"密码更新失败"),
     SESSION_ERROR(500215,"用户不存在"),
+    USER_IS_EXIT(500216,"用户已存在"),
+
+    NOT_LOGIN(500217,"请先登录!"),
 
 
     //秒杀模块5005XX

@@ -19,4 +19,12 @@
         id, nickname, password, salt, head, register_date, last_login_date, login_count
     </sql>
 
+    <select id="selectUserById" resultType="com.han.seckill.pojo.User">
+        select * from t_user where id = #{id}
+    </select>
+
+    <insert id="addUser" parameterType="com.han.seckill.vo.LoginVo" >
+        INSERT INTO t_user (id,nickName,password,salt) VALUES (#{mobile},#{nickName},#{password},'1a2b3c4d')
+    </insert>
+
 </mapper>

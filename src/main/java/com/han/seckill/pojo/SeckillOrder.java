@@ -27,7 +27,7 @@ public class SeckillOrder implements Serializable {
      * 秒杀订单ID
      */
     @TableId(value = "id", type = IdType.AUTO)
-    private Long id;
+    private String id;
 
     /**
      * 用户ID
@@ -42,7 +42,7 @@ public class SeckillOrder implements Serializable {
     /**
      * 商品ID
      */
-    private Long goodsId;
+    private String goodsId;
 
 
 }

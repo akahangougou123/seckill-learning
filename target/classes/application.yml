@@ -1,11 +1,11 @@
 spring:
   #thymeleaf配置
-  thymeleaf:
-    # 关闭缓存
-    cache: false
+#  thymeleaf:
+#    # 关闭缓存
+#    cache: false
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/seckill?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://localhost:3306/seckill?useUnicode=true&characterEncoding=UTF-8&userSSL=false&serverTimezone=Asia/Shanghai
     username: root
     password: hjj123456
     hikari:
@@ -44,6 +44,23 @@ spring:
         max-idle: 200
         #最小空闲连接，默认0
         min-idle: 5
+  #静态资源配置
+  resources:
+      #启动默认静态资源 默认启用
+      add-mappings: true
+      cache:
+        cachecontrol:
+          #缓存响应时间 单位秒
+          max-age: 3600
+      chain:
+        #资源链启动缓存
+        cache: true
+        #启动资源链 默认禁用
+        enabled: true
+        #启用压缩资源(gzip)解析 默认禁用
+        compressed: true
+        #启用H5yin应用缓存 默认禁用
+      static-locations: classpath:/static/
 
 
 

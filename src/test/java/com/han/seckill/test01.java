@@ -1,6 +1,7 @@
 package com.han.seckill;
 
 import com.han.seckill.pojo.User;
+import com.han.seckill.utils.MD5Util;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -23,6 +24,8 @@ public class test01 {
         Method[] methods2 = clazz2.getDeclaredMethods();
         Method[] methods3 = clazz3.getDeclaredMethods();
 
+        String inputpass = "2ca22cef7d9c96f77c0a50893b077e97";
+        System.out.println(MD5Util.formPassToDBPass(inputpass,"1a2b3c4d"));
 
 
 
@@ -36,4 +39,5 @@ public class test01 {
         nameMethod.invoke(user,"han");
         System.out.println(user);
     }
+
 }

@@ -11,6 +11,7 @@ import com.han.seckill.utils.UUIDUtil;
 import com.han.seckill.vo.LoginVo;
 import com.han.seckill.vo.RespBean;
 import com.han.seckill.vo.RespBeanEnum;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -28,6 +29,7 @@ import javax.servlet.http.HttpServletResponse;
  * @since 2023-02-10
  */
 @Service
+@Slf4j
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IUserService {
     @Autowired
     private UserMapper userMapper;
@@ -45,12 +47,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
 //            return RespBean.error(RespBeanEnum.MOBILE_ERROR);
 //        }
         //根据手机号获取用户
-        User user = userMapper.selectById(mobile);
+        User user = userMapper.selectUserById(mobile);
 //        System.out.println("user"+user);
         if (user == null){
 //            return RespBean.error(RespBeanEnum.MOBILE_ERROR);
             throw new GlobalException(RespBeanEnum.LOGIN_ERROR);
         }
+
 
         //判断密码是否正确
         if(!MD5Util.formPassToDBPass(password,user.getSalt()).equals(user.getPassword())){
@@ -64,7 +67,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
 //        request.getSession().setAttribute(ticket,user);
         redisTemplate.opsForValue().set("user:"+ticket,user);
         CookieUtil.setCookie(request, response, "userTicket", ticket);
-        return RespBean.success();
+        return RespBean.success(user);
     }
 
     /**
@@ -108,5 +111,30 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
             return RespBean.success();
         }
         return RespBean.error(RespBeanEnum.PASSWORD_UPDATE_FAIL );
+    }
+
+    /**
+     *  用户注册
+     * @param loginVo
+     * */
+    @Override
+    public RespBean doRegister(LoginVo loginVo){
+        String mobile = loginVo.getMobile();
+        String formPass = loginVo.getPassword();
+        //查用户是否已经注册
+        User user = userMapper.selectUserById(mobile);
+        if(user != null){
+            throw new GlobalException(RespBeanEnum.USER_IS_EXIT);
+        }
+        //将密码二次加密后插入数据库
+        String dbPass = MD5Util.formPassToDBPass(formPass,"1a2b3c4d");
+        loginVo.setPassword(dbPass);
+        int result = userMapper.addUser(loginVo);
+        //插入是否成功
+        if(result != 1){
+            throw new GlobalException(RespBeanEnum.ERROR);
+        }
+        log.info("用户注册成功{}",loginVo);
+        return RespBean.success();
     }
 }

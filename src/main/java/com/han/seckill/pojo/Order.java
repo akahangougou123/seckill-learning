@@ -39,7 +39,7 @@ public class Order implements Serializable {
     /**
      * 商品ID
      */
-    private Long goodsId;
+    private String goodsId;
 
     /**
      * 收货地址ID

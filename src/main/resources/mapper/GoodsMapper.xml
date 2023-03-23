@@ -58,4 +58,23 @@
         WHERE
             g.id = #{goodsId}
     </select>
+
+    <select id="queryAllGoods" resultType="com.han.seckill.vo.GoodsVo">
+        SELECT tg.id,tg.goods_name,tg.goods_title,tg.goods_img,tg.goods_detail,tg.goods_price,tsg.seckill_price
+        FROM t_goods tg
+        JOIN t_seckill_goods tsg ON tg.id = tsg.goods_id
+        LIMIT #{pages},#{pageSize}
+    </select>
+
+    <select id="getDetailImg" resultType="com.han.seckill.pojo.Goods">
+        SELECT id,goodsImg FROM t_goods_img
+        WHERE goodsId = #{goodsId}
+    </select>
+
+    <select id="queryGoods" resultType="com.han.seckill.vo.GoodsVo">
+        SELECT tg.id,tg.goods_name,tg.goods_title,tg.goods_img,tg.goods_detail,tg.goods_price,tsg.seckill_price
+        FROM t_goods tg
+        JOIN t_seckill_goods tsg ON tg.id = tsg.goods_id
+        LIMIT #{pages},#{pageSize}
+    </select>
 </mapper>

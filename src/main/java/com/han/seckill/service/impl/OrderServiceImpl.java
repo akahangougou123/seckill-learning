@@ -1,6 +1,7 @@
 package com.han.seckill.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.han.seckill.exception.GlobalException;
 import com.han.seckill.mapper.OrderMapper;
@@ -16,7 +17,9 @@ import com.han.seckill.vo.GoodsVo;
 import com.han.seckill.vo.OrderDetailVo;
 import com.han.seckill.vo.RespBeanEnum;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 
@@ -41,18 +44,28 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
     //private IKillOrderService secKillOrderService;
     @Autowired
     private IGoodsService goodsService;
+
+    @Autowired
+    private RedisTemplate redisTemplate;
     /**
      * 秒杀商品
      * @param user
      * @param goods
      * @return
      */
+    @Transactional
     @Override
     public Order seckill(User user, GoodsVo goods) {
         //秒杀商品表减库存
         SeckillGoods seckillGoods = seckillGoodsService.getOne(new QueryWrapper<SeckillGoods>().eq("goods_id", goods.getId()));
         seckillGoods.setStockCount(seckillGoods.getStockCount() - 1);
-        seckillGoodsService.updateById(seckillGoods);
+//        seckillGoodsService.updateById(seckillGoods);
+        //eq=>equal gt=>greater then
+        boolean seckillGoodsResult = seckillGoodsService.update(new UpdateWrapper<SeckillGoods>().set("stock_count",
+                seckillGoods.getStockCount()).eq("id", seckillGoods.getId()).gt("stock_count", 0));
+        if (!seckillGoodsResult){
+            return null;
+        }
         //生成订单
         Order order = new Order();
         order.setUserId(user.getId());
@@ -73,7 +86,8 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         seckillOrder.setOrderId(order.getId());
         //xxxxService.save()调用的就是xxxxMapper().insert()方法
         seckillOrderService.save(seckillOrder);
-
+        //将订单存入redis，查询是否重复购买时可不用查询数据库而是查询redis
+        redisTemplate.opsForValue().set("order:" +user.getId()+":"+goods.getGoodsId(),seckillGoods);
         return order;
     }
 

@@ -28,7 +28,7 @@ public class Goods implements Serializable {
      * 商品ID
      */
     @TableId(value = "id", type = IdType.AUTO)
-    private Long id;
+    private String id;
 
     /**
      * 商品名称

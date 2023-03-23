@@ -7,22 +7,22 @@ import com.han.seckill.pojo.User;
 import com.han.seckill.service.IGoodsService;
 import com.han.seckill.service.IOrderService;
 import com.han.seckill.service.ISeckillOrderService;
+import com.han.seckill.service.IUserService;
 import com.han.seckill.vo.GoodsVo;
 import com.han.seckill.vo.RespBean;
 import com.han.seckill.vo.RespBeanEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * 秒杀请求控制器
  */
 
-@Controller
+@RestController
 @Slf4j
 @RequestMapping("/seckill")
 public class SecKillController {
@@ -34,6 +34,11 @@ public class SecKillController {
 
     @Autowired
     private IOrderService orderService;
+    @Autowired
+    private IUserService userService;
+
+    @Autowired
+    private RedisTemplate redisTemplate;
 
     /**
      * 收到秒杀请求，先对请求的商品进行判断，判断通过再进行秒杀
@@ -43,7 +48,7 @@ public class SecKillController {
      * @return
      */
     @RequestMapping("/doSecKill2")
-    public String doSecKill2(Model model, User user, Long goodsId){
+    public String doSecKill2(Model model, User user, String goodsId){
         if(user == null){
             return "login";
         }
@@ -73,9 +78,9 @@ public class SecKillController {
         return "orderDetail";
     }
 
-    @RequestMapping(value = "/doSecKill",method = RequestMethod.POST)
+    @RequestMapping(value = "/doSecKill1",method = RequestMethod.POST)
     @ResponseBody
-    public RespBean doSecKill(Model model, User user, Long goodsId){
+    public RespBean doSecKill(Model model, User user, String goodsId){
         if(user == null){
             return RespBean.error(RespBeanEnum.SESSION_ERROR);
         }
@@ -84,13 +89,13 @@ public class SecKillController {
 
         //判断是否还有库存
         if(goods.getStockCount() < 1){
-            model.addAttribute("errmsg", RespBeanEnum.EMPTY_STOCK.getMessage());
+            model.addAttribute("error", RespBeanEnum.EMPTY_STOCK.getMessage());
             return RespBean.error(RespBeanEnum.EMPTY_STOCK);
         }
         //判断是否重复购买
         SeckillOrder seckillOrder = seckillOrderService.getOne(new QueryWrapper<SeckillOrder>().eq("user_id", user.getId()).eq("goods_id", goodsId));
         if(seckillOrder != null){
-            model.addAttribute("errmsg",RespBeanEnum.REPEATE_ERROR.getMessage());
+            model.addAttribute("error",RespBeanEnum.REPEATE_ERROR.getMessage());
             return RespBean.error(RespBeanEnum.REPEATE_ERROR);
         }
         Order order = orderService.seckill(user, goods);
@@ -98,6 +103,36 @@ public class SecKillController {
         model.addAttribute("order", order);
         model.addAttribute("goods", goods);
 
+        return RespBean.success(order);
+    }
+    @RequestMapping(value = "/doSeckill",method = RequestMethod.POST)
+    public RespBean doSeckill3(String userId,String goodsId){
+        if(userId == null){
+            return RespBean.error(RespBeanEnum.NOT_LOGIN);
+        }
+        System.out.println("user:"+userId);
+        System.out.println("goodsId:"+goodsId);
+        User user = userService.getById(userId);
+        GoodsVo goods = goodsService.findGoodsVoByGoodsId(goodsId);
+
+        log.info("用户:"+user.getId()+"秒杀商品:"+goodsId);
+
+        //判断是否还有库存
+        if(goods.getStockCount() < 1){
+            return RespBean.error(RespBeanEnum.EMPTY_STOCK);
+        }
+        //判断是否重复购买
+        //SeckillOrder seckillOrder = seckillOrderService.getOne(new QueryWrapper<SeckillOrder>().eq("user_id", user.getId()).eq("goods_id", goodsId));
+        SeckillOrder seckillOrder = (SeckillOrder) redisTemplate.opsForValue().get("order:" + user.getId() + ":"+goodsId);
+        if(seckillOrder != null){
+            return RespBean.error(RespBeanEnum.REPEATE_ERROR);
+        }
+        Order order = orderService.seckill(user, goods);
+
+        log.info("{}", order);
+        if(order == null){
+            return RespBean.error(RespBeanEnum.ERROR);
+        }
         return RespBean.success(order);
     }
 }

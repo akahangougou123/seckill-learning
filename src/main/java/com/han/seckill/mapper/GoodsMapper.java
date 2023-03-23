@@ -2,7 +2,9 @@ package com.han.seckill.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.han.seckill.pojo.Goods;
+import com.han.seckill.pojo.Page;
 import com.han.seckill.vo.GoodsVo;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -21,5 +23,11 @@ public interface GoodsMapper extends BaseMapper<Goods> {
      */
     List<GoodsVo> findGoodsVo();
 
-    GoodsVo findGoodsVoByGoodsId(Long goodsId);
+    GoodsVo findGoodsVoByGoodsId(String goodsId);
+
+    List<GoodsVo> queryAllGoods(@Param("pages") int pages, @Param("pageSize") int pageSize, int type);
+
+    List<Goods> getDetailImg(String goodsId);
+
+    List<GoodsVo> queryGoods(Page page);
 }
