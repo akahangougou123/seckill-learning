@@ -110,8 +110,8 @@ public class SecKillController {
         if(userId == null){
             return RespBean.error(RespBeanEnum.NOT_LOGIN);
         }
-        System.out.println("user:"+userId);
-        System.out.println("goodsId:"+goodsId);
+//        System.out.println("user:"+userId);
+//        System.out.println("goodsId:"+goodsId);
         User user = userService.getById(userId);
         GoodsVo goods = goodsService.findGoodsVoByGoodsId(goodsId);
 

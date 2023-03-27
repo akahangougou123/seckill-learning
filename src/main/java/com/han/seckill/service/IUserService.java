@@ -20,6 +20,8 @@ import javax.validation.Valid;
 public interface IUserService extends IService<User> {
     RespBean doLogin(@Valid LoginVo loginVo, HttpServletRequest request, HttpServletResponse response);
 
+    RespBean doLogin1(@Valid LoginVo loginVo, HttpServletRequest request, HttpServletResponse response);
+
     RespBean doRegister(@Valid LoginVo loginVo);
 
     /**

@@ -61,8 +61,9 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         seckillGoods.setStockCount(seckillGoods.getStockCount() - 1);
 //        seckillGoodsService.updateById(seckillGoods);
         //eq=>equal gt=>greater then
-        boolean seckillGoodsResult = seckillGoodsService.update(new UpdateWrapper<SeckillGoods>().set("stock_count",
-                seckillGoods.getStockCount()).eq("id", seckillGoods.getId()).gt("stock_count", 0));
+        boolean seckillGoodsResult = seckillGoodsService.update(new UpdateWrapper<SeckillGoods>().setSql("stock_count = stock_count - 1")
+                .eq("id", seckillGoods.getId())
+                .gt("stock_count", 0));
         if (!seckillGoodsResult){
             return null;
         }

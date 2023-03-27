@@ -31,7 +31,7 @@ public class LoginController {
     @ResponseBody
     public RespBean doLogin1(@Valid LoginVo loginVo, HttpServletRequest request, HttpServletResponse response){
         log.info("{}",loginVo);
-        return userService.doLogin(loginVo, request, response);
+        return userService.doLogin1(loginVo, request, response);
     }
 
     @RequestMapping(value = "/doLogin",method = RequestMethod.POST)

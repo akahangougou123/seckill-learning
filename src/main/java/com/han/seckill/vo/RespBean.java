@@ -1,6 +1,7 @@
 package com.han.seckill.vo;
 
 
+import com.han.seckill.pojo.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,6 +17,9 @@ public class RespBean {
     private long code;
     private String message;
     private Object obj;
+
+    public RespBean(Integer code, String message, Object obj, String string) {
+    }
 
     public static RespBean success(){
         return new RespBean(RespBeanEnum.SUCCESS.getCode(), RespBeanEnum.SUCCESS.getMessage(), null);
@@ -35,4 +39,5 @@ public class RespBean {
     public static RespBean error(RespBeanEnum respBeanEnum,Object obj){
         return new RespBean(respBeanEnum.getCode(), respBeanEnum.getMessage(), obj);
     }
+
 }
